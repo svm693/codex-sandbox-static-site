@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codex Sandbox</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --secondary: #e5e7eb;
+      --secondary-hover: #d1d5db;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      width: min(92vw, 360px);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    #count {
+      margin: 22px 0;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    #increase {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    #increase:hover {
+      background: var(--primary-hover);
+    }
+
+    #reset {
+      background: var(--secondary);
+      color: var(--text);
+    }
+
+    #reset:hover {
+      background: var(--secondary-hover);
+    }
+  </style>
+</head>
+<body>
+  <main class="app" aria-live="polite">
+    <h1>Codex Sandbox</h1>
+    <p>Simple counter app</p>
+    <div id="count">0</div>
+    <div class="buttons">
+      <button id="increase" type="button">Increase</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </main>
+
+  <script>
+    const countEl = document.getElementById('count');
+    const increaseBtn = document.getElementById('increase');
+    const resetBtn = document.getElementById('reset');
+
+    let count = 0;
+
+    function renderCount() {
+      countEl.textContent = count;
+    }
+
+    increaseBtn.addEventListener('click', () => {
+      count += 1;
+      renderCount();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      count = 0;
+      renderCount();
+    });
+  </script>
+</body>
+</html>
