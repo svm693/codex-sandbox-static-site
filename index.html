@@ -17,6 +17,18 @@
       --secondary-hover: #d1d5db;
     }
 
+    body.dark {
+      color-scheme: dark;
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --primary: #60a5fa;
+      --primary-hover: #3b82f6;
+      --secondary: #374151;
+      --secondary-hover: #4b5563;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -51,6 +63,11 @@
       font-size: 0.95rem;
     }
 
+    .subtitle {
+      margin-top: 4px;
+      font-size: 0.85rem;
+    }
+
     #count {
       margin: 22px 0;
       font-size: 3rem;
@@ -61,6 +78,12 @@
     .buttons {
       display: flex;
       gap: 10px;
+      justify-content: center;
+    }
+
+    .toolbar {
+      margin-top: 14px;
+      display: flex;
       justify-content: center;
     }
 
@@ -97,10 +120,14 @@
   <main class="app" aria-live="polite">
     <h1>Codex Sandbox</h1>
     <p>Simple counter app</p>
+    <p class="subtitle">Testing Codex edits</p>
     <div id="count">0</div>
     <div class="buttons">
       <button id="increase" type="button">Increase</button>
       <button id="reset" type="button">Reset</button>
+    </div>
+    <div class="toolbar">
+      <button id="theme-toggle" type="button">Toggle dark mode</button>
     </div>
   </main>
 
@@ -108,22 +135,48 @@
     const countEl = document.getElementById('count');
     const increaseBtn = document.getElementById('increase');
     const resetBtn = document.getElementById('reset');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const storageKeys = {
+      count: 'codex-counter-value',
+      theme: 'codex-theme'
+    };
 
-    let count = 0;
+    let count = Number(localStorage.getItem(storageKeys.count)) || 0;
+
+    function saveCount() {
+      localStorage.setItem(storageKeys.count, String(count));
+    }
 
     function renderCount() {
       countEl.textContent = count;
     }
 
+    function setTheme(theme) {
+      const isDark = theme === 'dark';
+      document.body.classList.toggle('dark', isDark);
+      localStorage.setItem(storageKeys.theme, isDark ? 'dark' : 'light');
+      themeToggleBtn.textContent = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+
     increaseBtn.addEventListener('click', () => {
       count += 1;
       renderCount();
+      saveCount();
     });
 
     resetBtn.addEventListener('click', () => {
       count = 0;
       renderCount();
+      saveCount();
     });
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+      setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+
+    renderCount();
+    setTheme(localStorage.getItem(storageKeys.theme) || 'light');
   </script>
 </body>
 </html>
